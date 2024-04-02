@@ -58,4 +58,8 @@ public class DataSave : MonoBehaviour
     {
         characterIndex = index;
     }
+    public void CoinUpdate(int coin)
+    {
+        coinCount = coin;
+    }
 }

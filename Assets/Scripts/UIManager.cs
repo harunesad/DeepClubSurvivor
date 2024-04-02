@@ -9,18 +9,19 @@ using DG.Tweening;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] Button play, settings, characterChoose;
-    [SerializeField] Button home, mainHome;
+    [SerializeField] Button mainHome;
     [SerializeField] CanvasGroup characterWindow, settingsWindow, entryWindow;
     [SerializeField] Sprite select, unselect;
     [SerializeField] List<Button> characters;
+    [SerializeField] TextMeshProUGUI coinText;
     Image choosen;
     void Start()
     {
+        coinText.text = DataSave.Instance.coinCount.ToString();
         mainHome.onClick.AddListener(MainHome);
         characterChoose.onClick.AddListener(CharacterWindow);
         settings.onClick.AddListener(SettingsOpen);
         play.onClick.AddListener(PlayGame);
-        home.onClick.AddListener(HomeOpen);
         for (int i = 0; i < characters.Count; i++)
         {
             int j = i;
@@ -61,6 +62,7 @@ public class UIManager : MonoBehaviour
         characterWindow.blocksRaycasts = false;
         characterWindow.DOFade(0, 1).SetEase(Ease.Linear).OnComplete(() =>
         {
+            DataSave.Instance.CoinUpdate(int.Parse(coinText.text));
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         });
     }
@@ -72,9 +74,9 @@ public class UIManager : MonoBehaviour
     {
         DataSave.Instance.SoundUpdate(slider.value, -1);
     }
-    void HomeOpen()
+    public void HomeOpen(CanvasGroup canvasGroup)
     {
-        UITransition(settingsWindow, entryWindow);
+        UITransition(canvasGroup, entryWindow);
     }
     void UITransition(CanvasGroup close, CanvasGroup open)
     {
