@@ -35,7 +35,6 @@ public class UIManager : MonoBehaviour
     {
         float a = 0;
         yield return new WaitUntil(() => characterWindow.alpha == 1);
-        menuSound.characterWindow.volume = DataSave.Instance.mainSound;
         menuSound.characterWindow.Play();
         yield return new WaitUntil(() => characterWindow.alpha == 0);
         menuSound.characterWindow.Stop();
@@ -43,7 +42,6 @@ public class UIManager : MonoBehaviour
     IEnumerator MenuSound()
     {
         yield return new WaitUntil(() => entryWindow.alpha == 1);
-        menuSound.characterWindow.volume = DataSave.Instance.mainSound;
         menuSound.loadingWindow.Play();
         yield return new WaitUntil(() => entryWindow.alpha == 0);
         menuSound.loadingWindow.Stop();
@@ -95,6 +93,8 @@ public class UIManager : MonoBehaviour
     public void MainSoundUpdate(Slider slider)
     {
         DataSave.Instance.SoundUpdate(-1, slider.value);
+        menuSound.characterWindow.volume = slider.value;
+        menuSound.loadingWindow.volume = slider.value;
     }
     public void EffectSoundUpdate(Slider slider)
     {
