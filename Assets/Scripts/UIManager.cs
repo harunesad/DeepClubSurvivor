@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] List<Button> characters;
     [SerializeField] TextMeshProUGUI coinText;
     [SerializeField] TMP_Dropdown difficulty;
+    [SerializeField] MenuSound menuSound;
     Image choosen;
     void Start()
     {
@@ -28,15 +29,35 @@ public class UIManager : MonoBehaviour
             int j = i;
             characters[i].onClick.AddListener(delegate { CharacterSelect(characters[j].transform.parent.GetComponent<Image>(), j); });
         }
+        StartCoroutine(MenuSound());
+    }
+    IEnumerator CharacterSound()
+    {
+        float a = 0;
+        yield return new WaitUntil(() => characterWindow.alpha == 1);
+        menuSound.characterWindow.volume = DataSave.Instance.mainSound;
+        menuSound.characterWindow.Play();
+        yield return new WaitUntil(() => characterWindow.alpha == 0);
+        menuSound.characterWindow.Stop();
+    }
+    IEnumerator MenuSound()
+    {
+        yield return new WaitUntil(() => entryWindow.alpha == 1);
+        menuSound.characterWindow.volume = DataSave.Instance.mainSound;
+        menuSound.loadingWindow.Play();
+        yield return new WaitUntil(() => entryWindow.alpha == 0);
+        menuSound.loadingWindow.Stop();
     }
     void MainHome()
     {
+        menuSound.Click();
         Debug.Log("Exit");
         Application.Quit();
     }
     void CharacterWindow()
     {
         UITransition(entryWindow, characterWindow);
+        StartCoroutine(CharacterSound());
     }
     void SettingsOpen()
     {
@@ -47,12 +68,14 @@ public class UIManager : MonoBehaviour
     {
         if (choosen != null && choosen != choosenImage)
         {
+            menuSound.Click();
             choosen.sprite = unselect;
             choosen = choosenImage;
             choosen.sprite = select;
         }
         else if (choosen == null)
         {
+            menuSound.Click();
             choosen = choosenImage;
             choosen.sprite = select;
         }
@@ -60,6 +83,7 @@ public class UIManager : MonoBehaviour
     }
     void PlayGame()
     {
+        menuSound.Click();
         characterWindow.blocksRaycasts = false;
         characterWindow.DOFade(0, 1).SetEase(Ease.Linear).OnComplete(() =>
         {
@@ -78,10 +102,12 @@ public class UIManager : MonoBehaviour
     }
     public void HomeOpen(CanvasGroup canvasGroup)
     {
+        StartCoroutine(MenuSound());
         UITransition(canvasGroup, entryWindow);
     }
     void UITransition(CanvasGroup close, CanvasGroup open)
     {
+        menuSound.Click();
         close.blocksRaycasts = false;
         close.DOFade(0, 1).SetEase(Ease.Linear).OnComplete(() =>
         {
