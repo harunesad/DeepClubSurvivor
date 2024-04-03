@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Sprite select, unselect;
     [SerializeField] List<Button> characters;
     [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] TMP_Dropdown difficulty;
     Image choosen;
     void Start()
     {
@@ -63,6 +64,7 @@ public class UIManager : MonoBehaviour
         characterWindow.DOFade(0, 1).SetEase(Ease.Linear).OnComplete(() =>
         {
             DataSave.Instance.CoinUpdate(int.Parse(coinText.text));
+            DataSave.Instance.DifficultySelect(difficulty.value);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         });
     }

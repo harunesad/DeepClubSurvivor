@@ -21,6 +21,7 @@ public class DataSave : MonoBehaviour
     }
     public float effectSound, mainSound;
     public int characterIndex;
+    public int difficulty;
     public float coinCount;
     private void Awake()
     {
@@ -61,5 +62,9 @@ public class DataSave : MonoBehaviour
     public void CoinUpdate(int coin)
     {
         coinCount = coin;
+    }
+    public void DifficultySelect(int difficulty)
+    {
+        this.difficulty = difficulty;
     }
 }
