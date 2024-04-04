@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
     }
     IEnumerator CharacterSound()
     {
-        float a = 0;
         yield return new WaitUntil(() => characterWindow.alpha == 1);
         menuSound.characterWindow.Play();
         yield return new WaitUntil(() => characterWindow.alpha == 0);

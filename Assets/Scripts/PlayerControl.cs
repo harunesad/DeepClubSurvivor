@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     public float turnSmoothTime = 2, turnSmoothVelocity;
     Vector3 movement;
     public float moveSpeed;
+    public List<Transform> points;
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
