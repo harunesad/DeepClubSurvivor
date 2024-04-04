@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour
     Vector3 movement;
     public float moveSpeed;
     public List<Transform> points;
+    public GameManager gameManager;
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
@@ -22,6 +23,13 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         Move();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 3 && !gameManager.enemyList.Contains(other.transform))
+        {
+            gameManager.enemyList.Add(other.transform);
+        }
     }
     void Move()
     {
