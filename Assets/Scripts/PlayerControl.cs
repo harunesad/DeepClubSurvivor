@@ -6,12 +6,14 @@ public class PlayerControl : MonoBehaviour
 {
     Animator playerAnim;
     float inputX, inputZ;
-    bool pressed = true;
+    bool pressed = true, movable = true;
     public float turnSmoothTime = 2, turnSmoothVelocity;
     Vector3 movement;
     public float moveSpeed;
     public List<Transform> points;
     public GameManager gameManager;
+    [SerializeField] LayerMask enemyLayer;
+    [SerializeField] float animFinish;
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
@@ -22,7 +24,18 @@ public class PlayerControl : MonoBehaviour
     }
     void Update()
     {
-        Move();
+        if (movable)
+        {
+            Move();
+        }
+        if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+        {
+            gameManager.gameUIManager.SuperBar();
+        }
+        if (Input.GetKeyDown(KeyCode.E) && gameManager.gameUIManager.superBar.fillAmount == 1)
+        {
+            StartCoroutine(WaitSuper());
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -30,6 +43,28 @@ public class PlayerControl : MonoBehaviour
         {
             gameManager.enemyList.Add(other.transform);
         }
+    }
+    IEnumerator WaitSuper()
+    {
+        movable = false;
+        playerAnim.SetTrigger("Super");
+        Collider[] enemies = Physics.OverlapBox(transform.position, Vector3.one, Quaternion.identity, enemyLayer);
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].GetComponentInChildren<CanvasGroup>().alpha = 1;
+        }
+        yield return new WaitForSecondsRealtime(animFinish);
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            StartCoroutine(AlphaToZero(enemies[i].GetComponentInChildren<CanvasGroup>()));
+        }
+        gameManager.gameUIManager.SuperBarReset();
+        movable = true;
+    }
+    IEnumerator AlphaToZero(CanvasGroup canvasGroup)
+    {
+        yield return new WaitForSecondsRealtime(3);
+        canvasGroup.alpha = 0;
     }
     void Move()
     {

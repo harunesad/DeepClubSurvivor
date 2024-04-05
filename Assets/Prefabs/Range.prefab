@@ -1224,7 +1224,7 @@ GameObject:
   - component: {fileID: 3737967648885135313}
   - component: {fileID: 3737967648885135311}
   - component: {fileID: -1118789529961730134}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Range
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1354,6 +1354,11 @@ MonoBehaviour:
   - {fileID: 8579864164867154862}
   - {fileID: 4101388807102383107}
   - {fileID: 3172417823203148140}
+  gameManager: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  animFinish: 1.1
 --- !u!1 &3737967648885135304
 GameObject:
   m_ObjectHideFlags: 0

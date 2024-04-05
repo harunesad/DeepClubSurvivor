@@ -1742,7 +1742,7 @@ GameObject:
   - component: {fileID: 1163546593501528670}
   - component: {fileID: 1280591214376178744}
   - component: {fileID: 3046590380400140426}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Wizard
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1869,6 +1869,11 @@ MonoBehaviour:
   - {fileID: 986597192130144897}
   - {fileID: 5573190159548239205}
   - {fileID: 1039147593722251254}
+  gameManager: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  animFinish: 2.1
 --- !u!1 &1280595653078425364
 GameObject:
   m_ObjectHideFlags: 0

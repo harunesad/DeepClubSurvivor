@@ -1038,6 +1038,11 @@ MonoBehaviour:
   - {fileID: 9088218680430398772}
   - {fileID: 367878302207536496}
   - {fileID: 8572071428813611473}
+  gameManager: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  animFinish: 2.1
 --- !u!1 &2972959230722490044
 GameObject:
   m_ObjectHideFlags: 0

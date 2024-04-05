@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 2766882564897511127}
   - component: {fileID: 2766882564897511126}
   - component: {fileID: 7843291638986086463}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MeleeWoman
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1007,6 +1007,11 @@ MonoBehaviour:
   - {fileID: 7272262910023670041}
   - {fileID: 6477444769270998726}
   - {fileID: 489949649417476757}
+  gameManager: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  animFinish: 2.1
 --- !u!1 &2972959230722490044
 GameObject:
   m_ObjectHideFlags: 0
