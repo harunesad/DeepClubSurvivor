@@ -9,9 +9,10 @@ public class GameUIManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI coinText, timeText;
     [SerializeField] float time;
+    [SerializeField] GameManager gameManager;
     float filAmount;
-    public Image superBar;
-    bool barAmount;
+    public Image superBar, staminaBar;
+    bool superAmount, staminaAmount;
     void Start()
     {
         time = (DataSave.Instance.difficulty + 1) * 100;
@@ -24,14 +25,14 @@ public class GameUIManager : MonoBehaviour
     }
     public void SuperBar()
     {
-        if (!barAmount)
+        if (!superAmount)
         {
             filAmount += Time.deltaTime / 25;
             superBar.fillAmount = filAmount;
         }
         if (superBar.fillAmount == 1)
         {
-            barAmount = true;
+            superAmount = true;
         }
     }
     public void SuperBarReset()
@@ -39,7 +40,31 @@ public class GameUIManager : MonoBehaviour
         superBar.DOFillAmount(0, 2).SetEase(Ease.Linear).OnComplete(() =>
         {
             filAmount = 0;
-            barAmount = false;
+            superAmount = false;
         });
+    }
+    public bool StaminaUpdate(float value)
+    {
+        if (staminaBar.fillAmount != 0 && !staminaAmount)
+        {
+            if (value == 1)
+            {
+                staminaBar.fillAmount -= Time.deltaTime / 25;
+            }
+            else
+            {
+                staminaBar.fillAmount += Time.deltaTime / 10 ;
+            }
+        }
+        else if (staminaBar.fillAmount == 0)
+        {
+            gameManager.player.GetComponent<Animator>().SetBool("Walk", false);
+            staminaAmount = true;
+            staminaBar.DOFillAmount(1, 2).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                staminaAmount = false;
+            });
+        }
+        return !staminaAmount;
     }
 }

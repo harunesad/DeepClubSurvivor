@@ -4,6 +4,7 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -68,10 +69,21 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(healthBar.fillAmount);
         healthBar.fillAmount -= damage;
+        if (healthBar.fillAmount == 0)
+        {
+            Time.timeScale = 0;
+            StartCoroutine(SceneLaod());
+        }
+    }
+    IEnumerator SceneLaod()
+    {
+        yield return new WaitForSecondsRealtime(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        Time.timeScale = 1;
     }
     IEnumerator Attackable()
     {
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(1);
         attack = false;
     }
 }

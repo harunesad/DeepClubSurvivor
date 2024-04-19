@@ -24,13 +24,18 @@ public class PlayerControl : MonoBehaviour
     }
     void Update()
     {
-        if (movable)
+        if (movable && gameManager.gameUIManager.StaminaUpdate(1))
         {
             Move();
         }
         if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
             gameManager.gameUIManager.SuperBar();
+            gameManager.gameUIManager.StaminaUpdate(-1);
+        }
+        else
+        {
+            gameManager.gameUIManager.StaminaUpdate(1);
         }
         if (Input.GetKeyDown(KeyCode.E) && gameManager.gameUIManager.superBar.fillAmount == 1)
         {
@@ -39,7 +44,7 @@ public class PlayerControl : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 3 && !gameManager.enemyList.Contains(other.transform))
+        if (other.gameObject.layer == 3 && !gameManager.enemyList.Contains(other.transform) && gameManager.enemyList.Count < 8)
         {
             gameManager.enemyList.Add(other.transform);
         }
