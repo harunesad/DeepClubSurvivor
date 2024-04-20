@@ -4,12 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI coinText, timeText;
     [SerializeField] float time;
     [SerializeField] GameManager gameManager;
+    [SerializeField] CanvasGroup interact;
     float filAmount;
     public Image superBar, staminaBar;
     bool superAmount, staminaAmount;
@@ -20,8 +22,22 @@ public class GameUIManager : MonoBehaviour
     }
     void Update()
     {
-        timeText.text = (int)(time / 60) + " : " + (int)(time % 60);
-        time -= Time.deltaTime;
+        if (time > 0)
+        {
+            timeText.text = (int)(time / 60) + " : " + (int)(time % 60);
+            time -= Time.deltaTime;
+        }
+        else
+        {
+            Time.timeScale = 0;
+            StartCoroutine(SceneLaod());
+        }
+    }
+    IEnumerator SceneLaod()
+    {
+        yield return new WaitForSecondsRealtime(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        Time.timeScale = 1;
     }
     public void SuperBar()
     {
@@ -32,6 +48,8 @@ public class GameUIManager : MonoBehaviour
         }
         if (superBar.fillAmount == 1)
         {
+            interact.alpha = 1;
+            interact.GetComponentInChildren<TextMeshProUGUI>().text = "Power";
             superAmount = true;
         }
     }
@@ -40,6 +58,7 @@ public class GameUIManager : MonoBehaviour
         superBar.DOFillAmount(0, 2).SetEase(Ease.Linear).OnComplete(() =>
         {
             filAmount = 0;
+            interact.alpha = 0;
             superAmount = false;
         });
     }
