@@ -13,7 +13,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] CanvasGroup interact;
     float filAmount;
-    public Image superBar, staminaBar;
+    public Image superBar, staminaBar, hungryBar, thirstyBar;
+    public GameObject win, gameover;
     bool superAmount, staminaAmount;
     void Start()
     {
@@ -30,8 +31,11 @@ public class GameUIManager : MonoBehaviour
         else
         {
             Time.timeScale = 0;
+            win.gameObject.SetActive(true);
             StartCoroutine(SceneLaod());
         }
+        HungryBar();
+        ThirstyBar();
     }
     IEnumerator SceneLaod()
     {
@@ -48,17 +52,32 @@ public class GameUIManager : MonoBehaviour
         }
         if (superBar.fillAmount == 1)
         {
-            interact.alpha = 1;
-            interact.GetComponentInChildren<TextMeshProUGUI>().text = "Power";
+            Interact(1, "Power");
             superAmount = true;
         }
+    }
+    void HungryBar()
+    {
+        hungryBar.fillAmount -= Time.deltaTime / 50;
+    }
+    public void HungryInc(float inc)
+    {
+        hungryBar.fillAmount += inc;
+    }
+    void ThirstyBar()
+    {
+        thirstyBar.fillAmount -= Time.deltaTime / 50;
+    }
+    public void ThirstyInc(float inc)
+    {
+        thirstyBar.fillAmount += inc;
     }
     public void SuperBarReset()
     {
         superBar.DOFillAmount(0, 2).SetEase(Ease.Linear).OnComplete(() =>
         {
             filAmount = 0;
-            interact.alpha = 0;
+            Interact(0, "");
             superAmount = false;
         });
     }
@@ -85,5 +104,10 @@ public class GameUIManager : MonoBehaviour
             });
         }
         return !staminaAmount;
+    }
+    public void Interact(float alpha, string message)
+    {
+        interact.alpha = alpha;
+        interact.GetComponentInChildren<TextMeshProUGUI>().text = message;
     }
 }

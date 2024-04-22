@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
         if (healthBar.fillAmount == 0)
         {
             Time.timeScale = 0;
+            gameUIManager.gameover.SetActive(true);
             StartCoroutine(SceneLaod());
         }
     }

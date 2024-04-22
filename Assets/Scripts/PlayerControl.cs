@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     public GameManager gameManager;
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] float animFinish;
+    float survivorMoveSpeed;
     private void Awake()
     {
         playerAnim = GetComponent<Animator>();
@@ -24,6 +25,7 @@ public class PlayerControl : MonoBehaviour
     }
     void Update()
     {
+        survivorMoveSpeed = moveSpeed * gameManager.gameUIManager.thirstyBar.fillAmount * gameManager.gameUIManager.hungryBar.fillAmount;
         if (movable && gameManager.gameUIManager.StaminaUpdate(1))
         {
             Move();
@@ -47,6 +49,40 @@ public class PlayerControl : MonoBehaviour
         if (other.gameObject.layer == 3 && !gameManager.enemyList.Contains(other.transform) && gameManager.enemyList.Count < 8)
         {
             gameManager.enemyList.Add(other.transform);
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == 7)
+        {
+            gameManager.gameUIManager.Interact(1, "Drink");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                other.gameObject.SetActive(false);
+                gameManager.gameUIManager.ThirstyInc(.25f);
+                gameManager.gameUIManager.Interact(0, "");
+            }
+        }
+        else if (other.gameObject.layer == 8)
+        {
+            gameManager.gameUIManager.Interact(1, "Eat");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                other.gameObject.SetActive(false);
+                gameManager.gameUIManager.HungryInc(.25f);
+                gameManager.gameUIManager.Interact(0, "");
+            }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 7)
+        {
+            gameManager.gameUIManager.Interact(0, "");
+        }
+        else if (other.gameObject.layer == 8)
+        {
+            gameManager.gameUIManager.Interact(0, "");
         }
     }
     IEnumerator WaitSuper()
@@ -92,7 +128,7 @@ public class PlayerControl : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, angle, 0);
             }
             movement = transform.forward;
-            transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
+            transform.Translate(movement * survivorMoveSpeed * Time.deltaTime, Space.World);
             playerAnim.SetBool("Walk", true);
         }
         else if (pressed)
