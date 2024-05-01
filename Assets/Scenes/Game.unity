@@ -25797,6 +25797,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Autumn
       objectReference: {fileID: 0}
+    - target: {fileID: 5976190765892476312, guid: ab44ac60cc8491141a52e505e9027060, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 2ded022418d94be4ab0785136d09839d, type: 2}
+    - target: {fileID: 5976190765892476312, guid: ab44ac60cc8491141a52e505e9027060, type: 3}
+      propertyPath: m_UseGeometry
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
