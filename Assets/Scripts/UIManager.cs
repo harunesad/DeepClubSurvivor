@@ -13,13 +13,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] CanvasGroup characterWindow, settingsWindow, entryWindow;
     [SerializeField] Sprite select, unselect;
     [SerializeField] List<Button> characters;
-    [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] TextMeshProUGUI winCountText;
     [SerializeField] TMP_Dropdown difficulty;
     [SerializeField] MenuSound menuSound;
-    Image choosen;
+    [SerializeField] Image choosen;
     void Start()
     {
-        coinText.text = DataSave.Instance.coinCount.ToString();
+        winCountText.text = PlayerPrefs.GetInt("Win", DataSave.Instance.winCount).ToString();
         mainHome.onClick.AddListener(MainHome);
         characterChoose.onClick.AddListener(CharacterWindow);
         settings.onClick.AddListener(SettingsOpen);
@@ -63,19 +63,10 @@ public class UIManager : MonoBehaviour
     }
     void CharacterSelect(Image choosenImage, int index)
     {
-        if (choosen != null && choosen != choosenImage)
-        {
-            menuSound.Click();
-            choosen.sprite = unselect;
-            choosen = choosenImage;
-            choosen.sprite = select;
-        }
-        else if (choosen == null)
-        {
-            menuSound.Click();
-            choosen = choosenImage;
-            choosen.sprite = select;
-        }
+        menuSound.Click();
+        choosen.sprite = unselect;
+        choosen = choosenImage;
+        choosen.sprite = select;
         DataSave.Instance.CharacterSelect(index);
     }
     void PlayGame()
@@ -84,7 +75,7 @@ public class UIManager : MonoBehaviour
         characterWindow.blocksRaycasts = false;
         characterWindow.DOFade(0, 1).SetEase(Ease.Linear).OnComplete(() =>
         {
-            DataSave.Instance.CoinUpdate(int.Parse(coinText.text));
+            DataSave.Instance.WinUpdate(int.Parse(winCountText.text));
             DataSave.Instance.DifficultySelect(difficulty.value);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         });

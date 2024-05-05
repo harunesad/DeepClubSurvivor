@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
         enemyList.Add(enemies.GetChild(0));
         enemyList[0].GetComponent<NavMeshAgent>().SetDestination(player.GetComponent<PlayerControl>().points[0].position);
         enemyList[0].GetComponent<Animator>().SetBool("Walk", true);
-        //InvokeRepeating("Builder", 0, 1);
+        InvokeRepeating("Builder", 0, .5f);
         //surface.BuildNavMesh();
     }
     void Builder()

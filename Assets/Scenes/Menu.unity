@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: ba70f7ee10a063a43bcbee86479ea1b4, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -603,6 +603,7 @@ MonoBehaviour:
   coinText: {fileID: 319945867}
   difficulty: {fileID: 958377895}
   menuSound: {fileID: 1637175455}
+  choosen: {fileID: 923603582}
 --- !u!1 &149065548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,7 +2815,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: abfdb5014d5534e4b9453deed73f5e07, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 78fc21c639c68ee40be331ea88746ed3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

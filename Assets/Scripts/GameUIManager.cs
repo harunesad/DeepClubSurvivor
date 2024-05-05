@@ -8,18 +8,22 @@ using UnityEngine.SceneManagement;
 
 public class GameUIManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI coinText, timeText;
+    [SerializeField] TextMeshProUGUI winCountText, timeText;
     [SerializeField] float time;
     [SerializeField] GameManager gameManager;
     [SerializeField] CanvasGroup interact;
+    [SerializeField] Button home;
+    [SerializeField] GameSound gameSound;
     float filAmount;
     public Image superBar, staminaBar, hungryBar, thirstyBar;
     public GameObject win, gameover;
     bool superAmount, staminaAmount;
     void Start()
     {
+        gameSound.musicWindow.Play();
         time = (DataSave.Instance.difficulty + 1) * 100;
-        coinText.text = DataSave.Instance.coinCount.ToString();
+        winCountText.text = PlayerPrefs.GetInt("Win", DataSave.Instance.winCount).ToString();
+        home.onClick.AddListener(Home);
     }
     void Update()
     {
@@ -32,6 +36,9 @@ public class GameUIManager : MonoBehaviour
         {
             Time.timeScale = 0;
             win.gameObject.SetActive(true);
+            DataSave.Instance.WinUpdate(DataSave.Instance.winCount + 1);
+            PlayerPrefs.SetInt("Win", DataSave.Instance.winCount);
+            winCountText.text = PlayerPrefs.GetInt("Win", DataSave.Instance.winCount).ToString();
             StartCoroutine(SceneLaod());
         }
         HungryBar();
@@ -42,6 +49,17 @@ public class GameUIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(2);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         Time.timeScale = 1;
+    }
+    void Home()
+    {
+        gameSound.musicWindow.Stop();
+        gameSound.Click();
+        StartCoroutine(LoadScene());
+    }
+    IEnumerator LoadScene()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
     public void SuperBar()
     {
