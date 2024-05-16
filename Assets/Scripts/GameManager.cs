@@ -76,15 +76,15 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             gameUIManager.gameover.SetActive(true);
-            StartCoroutine(SceneLaod());
+            //StartCoroutine(SceneLaod());
         }
     }
-    IEnumerator SceneLaod()
-    {
-        yield return new WaitForSecondsRealtime(2);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        Time.timeScale = 1;
-    }
+    //IEnumerator SceneLaod()
+    //{
+    //    yield return new WaitForSecondsRealtime(2);
+    //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    //    Time.timeScale = 1;
+    //}
     IEnumerator Attackable()
     {
         yield return new WaitForSeconds(1);

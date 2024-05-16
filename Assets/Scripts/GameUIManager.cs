@@ -12,7 +12,7 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] float time;
     [SerializeField] GameManager gameManager;
     [SerializeField] CanvasGroup interact;
-    [SerializeField] Button home;
+    [SerializeField] Button home, winRestart, loseRestart;
     [SerializeField] GameSound gameSound;
     float filAmount;
     public Image superBar, staminaBar, hungryBar, thirstyBar;
@@ -24,6 +24,8 @@ public class GameUIManager : MonoBehaviour
         time = (DataSave.Instance.difficulty + 1) * 100;
         winCountText.text = PlayerPrefs.GetInt("Win", DataSave.Instance.winCount).ToString();
         home.onClick.AddListener(Home);
+        winRestart.onClick.AddListener(Restart);
+        loseRestart.onClick.AddListener(Restart);
     }
     void Update()
     {
@@ -39,27 +41,40 @@ public class GameUIManager : MonoBehaviour
             DataSave.Instance.WinUpdate(DataSave.Instance.winCount + 1);
             PlayerPrefs.SetInt("Win", DataSave.Instance.winCount);
             winCountText.text = PlayerPrefs.GetInt("Win", DataSave.Instance.winCount).ToString();
-            StartCoroutine(SceneLaod());
+            //StartCoroutine(SceneLaod());
         }
         HungryBar();
         ThirstyBar();
     }
-    IEnumerator SceneLaod()
-    {
-        yield return new WaitForSecondsRealtime(2);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        Time.timeScale = 1;
-    }
+    //IEnumerator SceneLaod()
+    //{
+    //    yield return new WaitForSecondsRealtime(2);
+    //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    //    Time.timeScale = 1;
+    //}
     void Home()
     {
         gameSound.musicWindow.Stop();
         gameSound.Click();
         StartCoroutine(LoadScene());
     }
+    void Restart()
+    {
+        gameSound.musicWindow.Stop();
+        gameSound.Click();
+        StartCoroutine(RestartScene());
+    }
     IEnumerator LoadScene()
     {
         yield return new WaitForSecondsRealtime(1);
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+    IEnumerator RestartScene()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void SuperBar()
     {
