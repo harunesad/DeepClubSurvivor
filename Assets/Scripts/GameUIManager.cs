@@ -12,7 +12,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] float time;
     [SerializeField] GameManager gameManager;
     [SerializeField] CanvasGroup interact;
-    [SerializeField] Button home, winRestart, loseRestart;
+    public Button home;
+    [SerializeField] Button winHome, loseHome, winRestart, loseRestart;
     [SerializeField] GameSound gameSound;
     float filAmount;
     public Image superBar, staminaBar, hungryBar, thirstyBar;
@@ -24,6 +25,8 @@ public class GameUIManager : MonoBehaviour
         time = (DataSave.Instance.difficulty + 1) * 100;
         winCountText.text = PlayerPrefs.GetInt("Win", DataSave.Instance.winCount).ToString();
         home.onClick.AddListener(Home);
+        winHome.onClick.AddListener(Home);
+        loseHome.onClick.AddListener(Home);
         winRestart.onClick.AddListener(Restart);
         loseRestart.onClick.AddListener(Restart);
     }
@@ -36,6 +39,7 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
+            home.gameObject.SetActive(false);
             Time.timeScale = 0;
             win.gameObject.SetActive(true);
             DataSave.Instance.WinUpdate(DataSave.Instance.winCount + 1);

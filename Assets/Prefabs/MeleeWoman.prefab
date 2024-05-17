@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSmoothTime: 0
   turnSmoothVelocity: 0.025
-  moveSpeed: 3
+  moveSpeed: 5
   points:
   - {fileID: 8357713363102668061}
   - {fileID: 5389366128885745225}
